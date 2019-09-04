@@ -63,12 +63,12 @@ def main():
         logging.info("Downloading {}".format(version))
 
         file_name = "../downloads/{}.zip".format(version)
-        run_shell_command("wget -O {} {} ".format(file_name, sdk_downloads[version]))
+        run_shell_command("wget -q -O {} {} ".format(file_name, sdk_downloads[version]))
 
         logging.info("Switching git repo to {} branch".format(version))
         checkout_or_create_branch(version)
 
-        unzip_cmd = "unzip -o -d . {}".format(file_name)
+        unzip_cmd = "unzip -qq -o -d . {}".format(file_name)
         logging.info("Running {}".format(unzip_cmd))
         run_shell_command(unzip_cmd)
 
