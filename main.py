@@ -15,9 +15,6 @@ if LOG_LEVEL:
     logging.basicConfig(level=logging.DEBUG)
 
 SDK_BASE_URL = config["nrf-sdk"]["BaseURL"]
-SDK_DOCKER_REPO = config["nrf-sdk"]["DockerRepo"]
-
-LIST_TAGS_URL = "https://registry.hub.docker.com/v1/repositories/{}/tags"
 
 def run_shell_command(command):
     return subprocess.run(command, shell=True)
