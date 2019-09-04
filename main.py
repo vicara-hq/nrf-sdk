@@ -70,14 +70,15 @@ def main():
         run_shell_command(unzip_cmd)
 
         # Fix folder structure if required
-        run_shell_command("shopt -s dotglob;mv nRF5_SDK_*/* .;rmdir nRF5_SDK_*;:;")
+        run_shell_command('/bin/bash -c "shopt -s dotglob;mv nRF5_SDK_*/* .;rmdir nRF5_SDK_*;:;"')
 
-        run_shell_command("ls")
         if add_and_commit():
             logging.info("Version {} has changed. Staging and commiting changes.".format(version))
         else:
             logging.info("Version {} unchanged".format(version))
 
+        # Push changes
+        run_shell_command("git push -u origin {}".format(version))
 
 
 main()
