@@ -22,11 +22,8 @@ def run_shell_command(command):
 def checkout_or_create_branch(version): 
     return run_shell_command("git checkout {} || git checkout --orphan {} && git rm -rf .".format(version, version))
 
-def is_file_changed():
-    return run_shell_command("git diff-index --quiet HEAD --").returncode == 1
-
 def add_and_commit():
-    run_shell_command("git add . && git commit -m 'update'")
+    return run_shell_command("git add . && git commit -m 'update'").returncode == 0
 
 def get_nrf_sdk_downloads():
     folders_page = BeautifulSoup(request.urlopen(SDK_BASE_URL), features="html.parser")
@@ -72,9 +69,8 @@ def main():
         logging.info("Running {}".format(unzip_cmd))
         run_shell_command(unzip_cmd)
 
-        if is_file_changed():
+        if add_and_commit():
             logging.info("Version {} has changed. Staging and commiting changes.".format(version))
-            add_and_commit()
         else:
             logging.info("Version {} unchanged".format(version))
 
