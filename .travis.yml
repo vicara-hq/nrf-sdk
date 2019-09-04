@@ -13,8 +13,6 @@ before_script:
   - python -m pygit --m ${TRAVIS_BUILD_DIR} -v 1
 script:
   - cd repo && python ../main.py
-after_script:
-  - ls ../downloads
 branches:
   only:
     - master
