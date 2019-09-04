@@ -11,6 +11,8 @@ before_script:
   - mkdir downloads
   - cp -r ./.git ./repo
   - python -m pygit --m ${TRAVIS_BUILD_DIR} -v 1
+  - git pull --all
+  - git branch -a
 script:
   - cd repo && python ../main.py
 branches:
