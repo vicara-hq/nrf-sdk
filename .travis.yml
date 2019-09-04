@@ -14,7 +14,7 @@ before_script:
 script:
   - cd repo && python ../main.py
 after_script:
-  - ls downloads
+  - ls ../downloads
 branches:
   only:
     - master

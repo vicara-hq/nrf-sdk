@@ -62,7 +62,7 @@ def main():
     for version in sdk_downloads:
         logging.info("Downloading {}".format(version))
 
-        file_name = "../downloads/{}.zip".format(sdk_downloads[version])
+        file_name = "../downloads/{}.zip".format(version)
         run_shell_command("wget {} -o {}".format(sdk_downloads[version], file_name))
 
         logging.info("Switching git repo to {} branch".format(version))
