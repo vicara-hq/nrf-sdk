@@ -19,6 +19,9 @@ SDK_BASE_URL = config["nrf-sdk"]["BaseURL"]
 def run_shell_command(command):
     return subprocess.run(command, shell=True)
 
+def checkout_or_create_branch(version): 
+    return run_shell_command("git checkout {} || git checkout -b {} && git rm -rf .".format(version))
+
 def is_file_changed():
     return run_shell_command("git diff-index --quiet HEAD --").returncode == 0
 
@@ -63,11 +66,11 @@ def main():
         run_shell_command("wget {} -o {}".format(sdk_downloads[version], file_name))
 
         logging.info("Switching git repo to {} branch".format(version))
-        run_shell_command("git checkout -b {}".format(version))
+        checkout_or_create_branch(version)
 
         unzip_cmd = "unzip -o -d . {}".format(file_name)
         logging.info("Running {}".format(unzip_cmd))
-        run_shell_command("unzip -o -d . {}")
+        run_shell_command(unzip_cmd)
 
         if is_file_changed():
             logging.info("Version {} has changed. Staging and commiting changes.".format(version))
