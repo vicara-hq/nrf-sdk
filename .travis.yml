@@ -12,7 +12,7 @@ before_script:
   - cp -r ./.git ./repo
   - python -m pygit --m ${TRAVIS_BUILD_DIR} -v 1
 script:
-  - python main.py
+  - cd repo && python ../main.py
 after_script:
   - ls downloads
 branches:

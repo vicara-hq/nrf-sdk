@@ -20,7 +20,13 @@ SDK_DOCKER_REPO = config["nrf-sdk"]["DockerRepo"]
 LIST_TAGS_URL = "https://registry.hub.docker.com/v1/repositories/{}/tags"
 
 def run_shell_command(command):
-    subprocess.run(command, shell=True, check=True)
+    return subprocess.run(command, shell=True)
+
+def is_file_changed():
+    return run_shell_command("git diff-index --quiet HEAD --").returncode == 0
+
+def add_and_commit():
+    run_shell_command("git add . && git commit -m 'update'")
 
 def get_nrf_sdk_downloads():
     folders_page = BeautifulSoup(request.urlopen(SDK_BASE_URL), features="html.parser")
@@ -55,6 +61,23 @@ def main():
 
     for version in sdk_downloads:
         logging.info("Downloading {}".format(version))
-        run_shell_command("wget {} -o downloads/{}.zip".format(sdk_downloads[version], version))
+
+        file_name = "../downloads/{}.zip".format(sdk_downloads[version])
+        run_shell_command("wget {} -o {}".format(sdk_downloads[version], file_name))
+
+        logging.info("Switching git repo to {} branch".format(version))
+        run_shell_command("git checkout -b {}".format(version))
+
+        unzip_cmd = "unzip -o -d . {}".format(file_name)
+        logging.info("Running {}".format(unzip_cmd))
+        run_shell_command("unzip -o -d . {}")
+
+        if is_file_changed():
+            logging.info("Version {} has changed. Staging and commiting changes.".format(version))
+            add_and_commit()
+        else:
+            logging.info("Version {} unchanged".format(version))
+
+
 
 main()
