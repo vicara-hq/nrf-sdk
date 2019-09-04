@@ -8,12 +8,13 @@ install:
 before_script:
   - echo -e "machine github.com\n  login $TRAVIS_API_TOKEN" > ~/.netrc
   - mkdir repo
+  - mkdir downloads
   - cp -r ./.git ./repo
   - python -m pygit --m ${TRAVIS_BUILD_DIR} -v 1
 script:
   - python main.py
-services:
-  - docker
+after_script:
+  - ls downloads
 branches:
   only:
     - master

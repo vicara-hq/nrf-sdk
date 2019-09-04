@@ -48,22 +48,12 @@ def get_nrf_sdk_downloads():
     return downloads
 
 def main():
-    sdk_built_tags = list_repo_tags(SDK_DOCKER_REPO)
-
     sdk_downloads = get_nrf_sdk_downloads()
 
-    sdk_build_tags = list(set(sdk_downloads.keys()) - set(sdk_built_tags))
-    if len(sdk_build_tags):
-        logging.info("nrf sdk tags to build:\n{}".format(" ".join(sdk_build_tags)))
+    logging.info("Found following versions of nrf sdk:\n{}".format(" ".join(sdk_downloads.keys())))
 
-    finished_builds = []
 
-    for tag in sdk_build_tags:
-        build_tag = "{}:{}".format(SDK_DOCKER_REPO, tag)
-        build_docker_image(build_tag, sdk_downloads[tag])
-        publish_docker_image(build_tag)
-        finished_builds.append(build_tag)
-    
-    map(delete_docker_image, finished_builds)
+    for version in sdk_downloads:
+        run_shell_command("wget {} -o downloads/{}.zip".format(sdk_downloads[version], version))
 
-# main()
+main()
