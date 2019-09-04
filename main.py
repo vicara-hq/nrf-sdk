@@ -20,10 +20,10 @@ def run_shell_command(command):
     return subprocess.run(command, shell=True)
 
 def checkout_or_create_branch(version): 
-    return run_shell_command("git checkout {} || git checkout --orphan {} && git rm -rf .".format(version, version))
+    return run_shell_command("git checkout {} || git checkout --orphan {} && git rm -rf . > /dev/null".format(version, version))
 
 def add_and_commit():
-    return run_shell_command("git add . && git commit -m 'update'").returncode == 0
+    return run_shell_command("git add . > /dev/null && git commit -m 'update' > /dev/null").returncode == 0
 
 def get_nrf_sdk_downloads():
     folders_page = BeautifulSoup(request.urlopen(SDK_BASE_URL), features="html.parser")
