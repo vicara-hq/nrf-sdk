@@ -5,6 +5,7 @@ import re
 import json
 import configparser
 import logging
+import pygit
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -20,24 +21,6 @@ LIST_TAGS_URL = "https://registry.hub.docker.com/v1/repositories/{}/tags"
 
 def run_shell_command(command):
     subprocess.run(command, shell=True, check=True)
-
-def build_docker_image(name, download_url):
-    logging.info("Building {}".format(name))
-    run_shell_command("docker build --build-arg download_url=\"{}\" -t \"{}\" .".format(download_url, name))
-
-def publish_docker_image(image):
-    logging.info("Publishing {}".format(image))
-    run_shell_command("docker push {}".format(image))
-
-def delete_docker_image(image):
-    logging.info("Deleting {}".format(image))
-    run_shell_command("docker rmi -f {}".format(image))
-
-def list_repo_tags(image):
-    url = LIST_TAGS_URL.format(image)
-    tags_obj = json.load(request.urlopen(url))
-    logging.info("{} tags built in {} repo".format(len(tags_obj), image))
-    return list(map(lambda tag:tag["name"], tags_obj))
 
 def get_nrf_sdk_downloads():
     folders_page = BeautifulSoup(request.urlopen(SDK_BASE_URL), features="html.parser")

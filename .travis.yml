@@ -7,7 +7,9 @@ install:
 # command to run tests
 before_script:
   - echo -e "machine github.com\n  login $TRAVIS_API_TOKEN" > ~/.netrc
-  - python -m pygit --m ${TRAVIS_BUILD_DIR}/.. -v 1
+  - mkdir repo
+  - cp -r ./.git ./repo
+  - python -m pygit --m ${TRAVIS_BUILD_DIR} -v 1
 script:
   - python main.py
 services:
