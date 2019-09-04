@@ -54,6 +54,7 @@ def main():
 
 
     for version in sdk_downloads:
+        logging.info("Downloading {}".format(version))
         run_shell_command("wget {} -o downloads/{}.zip".format(sdk_downloads[version], version))
 
 main()
