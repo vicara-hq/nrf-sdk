@@ -63,7 +63,7 @@ def main():
         logging.info("Downloading {}".format(version))
 
         file_name = "../downloads/{}.zip".format(version)
-        run_shell_command("wget {} -o {}".format(sdk_downloads[version], file_name))
+        run_shell_command("wget -O {} {} ".format(file_name, sdk_downloads[version]))
 
         logging.info("Switching git repo to {} branch".format(version))
         checkout_or_create_branch(version)
