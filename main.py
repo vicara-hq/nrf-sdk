@@ -8,7 +8,7 @@ import logging
 import pygit
 
 config = configparser.ConfigParser()
-config.read("config.ini")
+config.read("../config.ini")
 
 LOG_LEVEL = int(config["logging"]["debug"])
 if LOG_LEVEL:
