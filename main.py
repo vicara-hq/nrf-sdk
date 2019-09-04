@@ -55,7 +55,8 @@ def main():
 
     logging.info("Found following versions of nrf sdk:\n{}".format(" ".join(sdk_downloads.keys())))
 
-
+    run_shell_command("git fetch --all")
+    
     for version in sdk_downloads:
         logging.info("Downloading {}".format(version))
 
