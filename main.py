@@ -20,10 +20,10 @@ def run_shell_command(command):
     return subprocess.run(command, shell=True)
 
 def checkout_or_create_branch(version): 
-    return run_shell_command("git checkout {} || git checkout -b {} && git rm -rf .".format(version, version))
+    return run_shell_command("git checkout {} || git checkout --orphan {} && git rm -rf .".format(version, version))
 
 def is_file_changed():
-    return run_shell_command("git diff-index --quiet HEAD --").returncode == 0
+    return run_shell_command("git diff-index --quiet HEAD --").returncode == 1
 
 def add_and_commit():
     run_shell_command("git add . && git commit -m 'update'")
