@@ -69,6 +69,10 @@ def main():
         logging.info("Running {}".format(unzip_cmd))
         run_shell_command(unzip_cmd)
 
+        # Fix folder structure if required
+        run_shell_command("shopt -s dotglob;mv nRF5_SDK_*/* .;rmdir nRF5_SDK_*;:;")
+
+        run_shell_command("ls")
         if add_and_commit():
             logging.info("Version {} has changed. Staging and commiting changes.".format(version))
         else:
