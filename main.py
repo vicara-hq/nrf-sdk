@@ -5,7 +5,6 @@ import re
 import json
 import configparser
 import logging
-import pygit
 
 config = configparser.ConfigParser()
 config.read("../config.ini")
